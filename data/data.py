@@ -8,6 +8,8 @@ def get_data(ticker, start, end):
     data = yf.download(ticker, start=start, end=end)
     data = data.xs(ticker, level=1, axis=1) # flattens ticker data
     data.columns.name = None # fixes indexing within columns
+    # drops all NaN values from these columns
+    data = data.dropna(subset=["Open", "High", "Low", "Close", "Volume"])
 
     if data.empty:
         print(f"[!] No data for {ticker}")
@@ -15,6 +17,4 @@ def get_data(ticker, start, end):
     
     path = f"data/{ticker}.csv"
     data.to_csv(path)
-    df_raw = pd.read_csv(path, parse_dates=["Date"])
-    df = df_raw.dropna(subset=["Open", "High", "Low", "Close", "Volume"])
-    return df
+    return pd.read_csv(path, parse_dates=["Date"])
