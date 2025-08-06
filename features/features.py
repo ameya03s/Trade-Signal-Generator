@@ -10,4 +10,3 @@ FEATURES = ["sma_20", "ema_20", "log_return", "rolling_std_20", "rsi_14",
 # log_return: log difference of consecutive Close prices
 # rolling_std_10: 10-day rolling standard deviation (volatility)
 # lag_1: yesterday's Close
-
