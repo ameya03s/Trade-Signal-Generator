@@ -13,4 +13,6 @@ def get_data(ticker, start, end):
     
     path = f"data/{ticker}.csv"
     data.to_csv(path)
-    return pd.read_csv(path)
+    df_raw = pd.read_csv(path, parse_dates=["Date"])
+    df = df_raw.dropna(subset=["Open", "High", "Low", "Close", "Volume"])
+    return df
