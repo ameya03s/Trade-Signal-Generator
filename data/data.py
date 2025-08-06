@@ -6,7 +6,7 @@ def get_data(ticker, start, end):
     os.makedirs("data", exist_ok=True)
 
     data = yf.download(ticker, start=start, end=end)
-    data = data.xs(ticker, level=1, axis=1)
+    data = data.xs(ticker, level=1, axis=1) # flattens ticker data
 
     if data.empty:
         print(f"[!] No data for {ticker}")
