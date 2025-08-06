@@ -7,6 +7,7 @@ def get_data(ticker, start, end):
 
     data = yf.download(ticker, start=start, end=end)
     data = data.xs(ticker, level=1, axis=1) # flattens ticker data
+    data.columns.name = None # fixes indexing within columns
 
     if data.empty:
         print(f"[!] No data for {ticker}")
