@@ -16,4 +16,20 @@ def add_features(df):
     df["ema_20"] = df["Close"].ewm(span=20).mean() # ewm does exponential weighting
     s = pd.Series(df["Close"].shift(1)) # lines up yesterday's close with today
     df["log_return"] = np.log(df["Close"].div(s)) # log difference of yesterday and today's close
+    df["rolling_std_20"] = df["Close"].rolling(20).std() # 20-day rolling standard deviation
+    df['rsi_14'] = add_rsi(df)
+    df["rolling_std_10"] = df["Close"].rolling(10).std() # 10-day rolling standard deviation
+    df["lag_1"] = df["Close"].shift(1) # yesterday's close
+    df["lag_5"] = df["Close"].shift(5) # 5 days ago
+    df['volume_avg_10'] = df['Volume'].rolling(10).mean() # 10-day average volume
+    df["z_score_close"] = (df["Close"] - df["sma_20"]) / df["rolling_std_20"] # z-score of close
+    
+    return df
+
+def add_rsi(df):
+    changes = df["Close"].diff()
+    gains = changes.clip(lower=0).rolling(14).mean()
+    losses = changes.clip(upper=0).abs().rolling(14).mean()
+    rs = gains.div(losses)
+    df["rsi_14"] = 100 - (100/(1+rs))
     return df
