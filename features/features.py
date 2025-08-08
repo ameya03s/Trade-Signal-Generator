@@ -22,14 +22,16 @@ def add_features(df):
     df["lag_1"] = df["Close"].shift(1) # yesterday's close
     df["lag_5"] = df["Close"].shift(5) # 5 days ago
     df['volume_avg_10'] = df['Volume'].rolling(10).mean() # 10-day average volume
-    df["z_score_close"] = (df["Close"] - df["sma_20"]) / df["rolling_std_20"] # z-score of close
+    df["zscore_close"] = (df["Close"] - df["sma_20"]) / df["rolling_std_20"] # z-score of close
+
+    clean = df.dropna(subset=FEATURES)
     
-    return df
+    return clean
 
 def add_rsi(df):
     changes = df["Close"].diff()
     gains = changes.clip(lower=0).rolling(14).mean()
     losses = changes.clip(upper=0).abs().rolling(14).mean()
     rs = gains.div(losses)
-    df["rsi_14"] = 100 - (100/(1+rs))
+    df = 100 - (100/(1+rs))
     return df
