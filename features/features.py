@@ -25,7 +25,6 @@ def add_features(df):
     df["zscore_close"] = (df["Close"] - df["sma_20"]) / df["rolling_std_20"] # z-score of close
 
     clean = df.dropna(subset=FEATURES)
-    
     return clean
 
 def add_rsi(df):

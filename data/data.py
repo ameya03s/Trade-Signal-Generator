@@ -4,6 +4,7 @@ import os
 
 def get_data(ticker, start, end):
     os.makedirs("data", exist_ok=True)
+    os.makedirs("data/raw", exist_ok=True)
 
     data = yf.download(ticker, start=start, end=end)
     data = data.xs(ticker, level=1, axis=1) # flattens ticker data
@@ -15,6 +16,6 @@ def get_data(ticker, start, end):
         print(f"[!] No data for {ticker}")
         return pd.DataFrame()
     
-    path = f"data/{ticker}.csv"
+    path = f"data/raw/{ticker}.csv"
     data.to_csv(path)
     return pd.read_csv(path, parse_dates=["Date"])
