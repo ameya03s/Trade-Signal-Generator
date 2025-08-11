@@ -21,6 +21,6 @@ def add_labels(df, price, atr, k, horizon):
     threshold = k * atr_log
     significant = np.abs(future_log_return) >= threshold
     pos = future_log_return > 0
-    labels = np.where(~significant, 0, np.where(pos, 1, -1))
+    labels = np.where(~significant, 0, np.where(pos, 2, 1))
 
     return labels

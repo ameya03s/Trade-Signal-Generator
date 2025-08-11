@@ -11,6 +11,9 @@ FEATURES = ["sma_20", "ema_20", "log_return", "rolling_std_20", "rsi_14",
 # rolling_std_10: 10-day rolling standard deviation (volatility)
 # lag_1: yesterday's Close
 
+def get_feature_list():
+    return FEATURES
+
 def add_features(df):
     df["sma_20"] = df["Close"].rolling(20).mean() # .rolling() executes taking the sum of prices of the last 20 days
     df["ema_20"] = df["Close"].ewm(span=20).mean() # ewm does exponential weighting
