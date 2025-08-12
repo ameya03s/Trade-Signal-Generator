@@ -19,6 +19,8 @@ def main():
 
     load_df = load_data(processed_path)
     df_train, df_eval = data_split(load_df)
+    df_train = df_train.dropna(subset=get_feature_list() + ["labels"])
+    df_eval = df_eval.dropna(subset=get_feature_list()+['labels'])
     x_train, y_train = prep_features_labels(df_train, get_feature_list())
     x_eval, y_eval = prep_features_labels(df_eval, get_feature_list())
 

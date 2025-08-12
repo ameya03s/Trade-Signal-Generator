@@ -14,11 +14,11 @@ def data_split(df):
 def prep_features_labels(df, features):
     return df[features], df["labels"] # features is x, labels is y
 
-def train(x_train, x_eval, y_train, y_eval):
+def train(x_train, y_train, x_eval, y_eval):
     model = xgb.XGBClassifier(
         objective="multi:softmax",
         n_estimators=100,
-        max_depth=3,
+        max_depth=4,
         learning_rate=0.1,
         )
     
@@ -26,4 +26,7 @@ def train(x_train, x_eval, y_train, y_eval):
     print(model.n_estimators)
     print(model.max_depth)
     print(model.learning_rate)
-    return model
+
+    model.fit(x_train, y_train)
+    acc = model.score(x_eval, y_eval)
+    return acc
