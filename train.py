@@ -18,15 +18,10 @@ def train(x_train, y_train, x_eval, y_eval):
     model = xgb.XGBClassifier(
         objective="multi:softmax",
         n_estimators=100,
-        max_depth=4,
+        max_depth=3,
         learning_rate=0.1,
         )
     
-    print(model.objective)
-    print(model.n_estimators)
-    print(model.max_depth)
-    print(model.learning_rate)
-
     model.fit(x_train, y_train)
     acc = model.score(x_eval, y_eval)
     return acc

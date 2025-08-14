@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from data import data
 
 FEATURES = ["sma_20", "ema_20", "log_return", "rolling_std_20", "rsi_14", 
             "lag_1","lag_5", "volume_avg_10", "zscore_close", "atr_14"]
