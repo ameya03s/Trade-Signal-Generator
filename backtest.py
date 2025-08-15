@@ -22,10 +22,22 @@ def calc_shares(cash, price):
     num_shares = int(spending/price) # rounded down to ensure we're not overspending
     return num_shares
 
+def calc_spending(cash, price):
+    shares = calc_shares(cash, price)
+    return shares * price
+
+def do_we_have_funds(cash, min_cash, spending):
+    net_funds = cash - min_cash
+    if net_funds < spending:
+        return False
+    else:
+        return True
+
 def buy(cash, shares, price):
     amount_to_buy = calc_shares(cash, price)
     shares += amount_to_buy
     cash -= amount_to_buy * price
+    return cash, shares
 
 def num_to_sell(min_cash, cash, shares, price):
     if cash > min_cash:
@@ -38,27 +50,39 @@ def sell(cash, min_cash, shares, price):
     shares_to_sell = num_to_sell(min_cash, cash, shares, price)
     shares -= shares_to_sell
     cash += shares_to_sell * price
+    return cash, shares
 
 def simulate(cash, df, labels):
     shares = 0
-    for day in range(len(labels)):
-        label = labels.iloc[day]
+    actions = []
+    for day in range(len(labels[1:])):
+        label = labels[day]
         price = df.iloc[day]['Open']
         min_cash = calc_min_cash(cash)
 
         if label == 2:
             # buy logic
             if cash < min_cash:
+                actions.append(0)
                 continue
             else:
-                buy(cash, shares, price)
+                if do_we_have_funds(cash, min_cash, calc_spending(cash, price)):
+                    cash, shares = buy(cash, shares, price)
+                    actions.append(2)
+                else:
+                    actions.append(0)
+                    continue
         elif label == 1:
             # sell logic
             if shares == 0:
+                actions.append(0)
                 continue
             else:
-                sell(cash, min_cash, shares, price)
+                actions.append(1)
+                cash, shares = sell(cash, min_cash, shares, price)
         else:
             # hold stocks
+            actions.append(0)
             continue
-        # TODO: RUN TESTS ON THIS RIGHT AFTER OPENING
+    
+    return cash, shares, actions

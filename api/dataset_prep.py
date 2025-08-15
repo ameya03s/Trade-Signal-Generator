@@ -7,11 +7,11 @@ import os
 def prep_data(ticker, start, end):
   df_train = get_dataset()
   df_train = add_features(df_train)
-  df_train['labels'] = add_labels(df_train, "Close", "atr_14", 0.75, 1)
+  df_train['labels'] = add_labels(df_train, "Close", "atr_14", 0.5, 1)
 
   df_eval = get_data(ticker, start, end)
   df_eval = add_features(df_eval)
-  df_eval['labels'] = add_labels(df_eval, "Close", "atr_14", 0.75, 1)
+  df_eval['labels'] = add_labels(df_eval, "Close", "atr_14", 0.5, 1)
 
   df_train = df_train.dropna(subset=get_feature_list() + ["labels"])
   df_eval = df_eval.dropna(subset=get_feature_list()+['labels'])
