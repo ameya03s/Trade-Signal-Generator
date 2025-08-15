@@ -209,3 +209,6 @@ __marimo__/
 # Data
 data/raw/*.csv
 data/processed/*.csv
+
+# Model
+model/
