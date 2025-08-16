@@ -20,8 +20,8 @@ def train(x_train, y_train, x_eval, y_eval):
     
     model.fit(x_train, y_train)
 
-    os.makedirs("model", exist_ok=True)
-    joblib.dump(model, 'model/model.joblib')
+    # os.makedirs("model", exist_ok=True)
+    # joblib.dump(model, 'model/model.joblib')
 
     acc = model.score(x_eval, y_eval)
     return acc

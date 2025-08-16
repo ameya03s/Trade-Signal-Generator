@@ -1,10 +1,10 @@
-import numpy as np
-import pandas as pd
+import numpy
+import pandas
 import joblib
 
-def load_predictions(x_test):
-    model = joblib.load('model/model.joblib')
-    return model.predict(x_test)
+# def load_predictions(x_test):
+#     model = joblib.load('model/model.joblib')
+#     return model.predict(x_test)
 
 def prep_prices(df):
     df = df.shift(-1)
@@ -54,35 +54,34 @@ def sell(cash, min_cash, shares, price):
 
 def simulate(cash, df, labels):
     shares = 0
-    actions = []
-    for day in range(len(labels[1:])):
-        label = labels[day]
+    portfolio_values = []
+    trades = []
+    for day in range(len(labels)):
+        label = labels.iloc[day]
         price = df.iloc[day]['Open']
         min_cash = calc_min_cash(cash)
 
         if label == 2:
             # buy logic
             if cash < min_cash:
-                actions.append(0)
                 continue
             else:
                 if do_we_have_funds(cash, min_cash, calc_spending(cash, price)):
                     cash, shares = buy(cash, shares, price)
-                    actions.append(2)
+                    trades.append(2)
                 else:
-                    actions.append(0)
                     continue
         elif label == 1:
             # sell logic
             if shares == 0:
-                actions.append(0)
                 continue
             else:
-                actions.append(1)
+                trades.append(1)
                 cash, shares = sell(cash, min_cash, shares, price)
         else:
             # hold stocks
-            actions.append(0)
             continue
+
+        portfolio_values.append( cash + (shares * price))
     
-    return cash, shares, actions
+    return cash, shares, portfolio_values, trades

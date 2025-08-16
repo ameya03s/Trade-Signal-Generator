@@ -14,19 +14,18 @@ def main():
     print(f"{ticker}: {acc}")
 
     starting_cash = 100000
-    df = pd.read_csv("data/processed/eval_XLV.csv")
-    df = prep_prices(df)
-    labels = load_predictions(x_eval)
+    # df = pd.read_csv("data/processed/eval_XLV.csv")
+    df = prep_prices(df_eval)
+    labels = df['labels']
 
     print(f"Cash: {starting_cash}")
     print(f"Shares: 0")
-    print(y_eval)
 
-    final_cash, shares, actions = simulate(starting_cash, df, labels)
+    final_cash, shares, portfolio_values, trades = simulate(starting_cash, df, labels)
 
     print(f"Cash: {final_cash}")
     print(f"Shares: {shares}")
-    print(actions)
+    print(f"Trades: {len(trades)}")
 
 
 
