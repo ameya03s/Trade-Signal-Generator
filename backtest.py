@@ -64,22 +64,26 @@ def simulate(cash, df, labels):
         if label == 2:
             # buy logic
             if cash < min_cash:
+                trades.append(0)
                 continue
             else:
                 if do_we_have_funds(cash, min_cash, calc_spending(cash, price)):
                     cash, shares = buy(cash, shares, price)
                     trades.append(2)
                 else:
+                    trades.append(0)
                     continue
         elif label == 1:
             # sell logic
             if shares == 0:
+                trades.append(0)
                 continue
             else:
                 trades.append(1)
                 cash, shares = sell(cash, min_cash, shares, price)
         else:
             # hold stocks
+            trades.append(0)
             continue
 
         portfolio_values.append( cash + (shares * price))

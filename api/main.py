@@ -1,9 +1,10 @@
 from api.dataset_prep import *
 from train import train
 from backtest import *
+from metrics import *
 
 def main():
-    ticker = "XLV"
+    ticker = "AAPL"
     start = "2024-01-01"
     end = "2025-01-01"
 
@@ -25,7 +26,12 @@ def main():
 
     print(f"Cash: {final_cash}")
     print(f"Shares: {shares}")
-    print(f"Trades: {len(trades)}")
+    print(f"Actions: {len(trades)}")
+    print(f"Final Portfolio Value: {portfolio_values[-1]}")
+
+    print(f"\nTotal Return: {round(calc_total_return(starting_cash, portfolio_values), 2)}")
+    print(f"Sharpe: {round(calc_sharpe_ratio(calc_daily_return(portfolio_values)), 2)}")
+    print(f"Win Rate: {round(calc_win_rate(calc_daily_return(portfolio_values)), 2)}")
 
 
 
