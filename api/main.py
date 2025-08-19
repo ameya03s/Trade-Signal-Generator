@@ -4,7 +4,7 @@ from backtest import *
 from metrics import *
 
 def main():
-    ticker = "AAPL"
+    ticker = "TSLA"
     start = "2024-01-01"
     end = "2025-01-01"
 
