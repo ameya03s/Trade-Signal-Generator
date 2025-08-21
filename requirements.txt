@@ -4,6 +4,4 @@ scikit-learn
 xgboost
 yfinance
 ta
-joblib
-fastapi
 uvicorn[standard]
