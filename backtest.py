@@ -1,11 +1,3 @@
-import numpy
-import pandas
-import joblib
-
-# def load_predictions(x_test):
-#     model = joblib.load('model/model.joblib')
-#     return model.predict(x_test)
-
 def prep_prices(df):
     df = df.shift(-1)
     df = df.dropna()

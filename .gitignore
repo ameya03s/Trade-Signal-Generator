@@ -212,3 +212,14 @@ data/processed/*.csv
 
 # Model
 model/
+
+# macOS
+.DS_Store
+
+# Editor settings (optional)
+.vscode/
+.idea/
+
+# Data (ignore entire dirs, not just CSVs)
+data/raw/
+data/processed/

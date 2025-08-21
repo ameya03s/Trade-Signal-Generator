@@ -16,12 +16,6 @@ def prep_data(ticker, start, end):
   df_train = df_train.dropna(subset=get_feature_list() + ["labels"])
   df_eval = df_eval.dropna(subset=get_feature_list()+['labels'])
 
-  # os.makedirs('data/processed', exist_ok=True)
-  # path_train = f"data/processed/train.csv"
-  # path_eval = f"data/processed/eval_{ticker}.csv"
-  # df_train.to_csv(path_train)
-  # df_eval.to_csv(path_eval)
-
   return df_train, df_eval
 
 def prep_train_set(df_train, df_eval):

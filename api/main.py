@@ -4,6 +4,8 @@ from backtest import *
 from metrics import *
 
 def main():
+    # Ticker is decided by user as one of the 9 from training set
+    # along with start and end date
     ticker = "TSLA"
     start = "2024-01-01"
     end = "2025-01-01"
@@ -14,8 +16,7 @@ def main():
     acc = train(x_train, y_train, x_eval, y_eval)
     print(f"{ticker}: {acc}")
 
-    starting_cash = 100000
-    # df = pd.read_csv("data/processed/eval_XLV.csv")
+    starting_cash = 100000 # sample starting cash to test backtester
     df = prep_prices(df_eval)
     labels = df['labels']
 
