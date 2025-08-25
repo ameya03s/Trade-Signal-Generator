@@ -88,9 +88,6 @@ metrics.py           # Return metrics (Sharpe, win rate, total return)
 - Reproducible data sourcing with local CSV cache
 
 ## Notes & limitations
-- No transaction costs/slippage; deterministic rules for educational purposes
-- Time split is ticker/date based; consider adding rolling CV for production research
+- No transaction costs/slippage; deterministic rules
+- Time split is ticker/date based; considering adding rolling CV for production research
 - Model persistence intentionally omitted to keep the repo focused on pipeline clarity
-
-## License
-Add your preferred license here (e.g., MIT).
