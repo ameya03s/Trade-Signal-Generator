@@ -1,9 +1,18 @@
+"""CLI entrypoint for running the end-to-end training and backtest demo.
+
+This module demonstrates:
+- Preparing data and features
+- Training the classifier
+- Running a simple backtest and printing evaluation metrics
+"""
+
 from api.dataset_prep import *
 from train import train
 from backtest import *
 from metrics import *
 
 def main():
+    """Run a demo pipeline on a sample ticker over a date range."""
     # Ticker is decided by user as one of the 9 from training set
     # along with start and end date
     ticker = "TSLA"

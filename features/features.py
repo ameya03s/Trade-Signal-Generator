@@ -1,3 +1,5 @@
+"""Feature engineering functions used by the training and labeling pipeline."""
+
 import pandas as pd
 import numpy as np
 
@@ -11,9 +13,11 @@ FEATURES = ["sma_20", "ema_20", "log_return", "rolling_std_20", "rsi_14",
 # lag_1: yesterday's Close
 
 def get_feature_list():
+    """Return the canonical list of feature column names."""
     return FEATURES
 
 def add_features(df):
+    """Compute technical features and return a DataFrame without NaNs for them."""
     df["sma_20"] = df["Close"].rolling(20).mean() # .rolling() executes taking the sum of prices of the last 20 days
     df["ema_20"] = df["Close"].ewm(span=20).mean() # ewm does exponential weighting
 
@@ -29,18 +33,25 @@ def add_features(df):
     df["zscore_close"] = (df["Close"] - df["sma_20"]) / df["rolling_std_20"] # z-score of close
     df["atr_14"] = get_atr(df, s) # 14-day ATR
 
-    clean = df.dropna(subset=FEATURES)
+    clean = df.dropna(subset=FEATURES) # cleans dataset by dropping NaN values
     return clean
 
 def add_rsi(df):
+    """Compute a 14-period RSI over `Close` and return the series."""
     changes = df["Close"].diff()
-    gains = changes.clip(lower=0).rolling(14).mean()
-    losses = changes.clip(upper=0).abs().rolling(14).mean()
-    rs = gains.div(losses)
-    df = 100 - (100/(1+rs))
+    gains = changes.clip(lower=0).rolling(14).mean() # trim values at lower thresholds
+    losses = changes.clip(upper=0).abs().rolling(14).mean() # trim values at higher thresholds
+    rs = gains.div(losses) # divide gains and losses
+    df = 100 - (100/(1+rs)) # rsi calculation
     return df
 
 def get_atr(df, s):
+    """Compute a 14-period ATR using Wilder's smoothing.
+
+    Args:
+        df: Price DataFrame with High, Low, Close.
+        s: Series of prior-day Close values (aligned to current day).
+    """
     r1 = (df["High"]-df['Low'])
     r2 = (df["High"] - s).abs()
     r3 = (df["Low"] - s).abs()

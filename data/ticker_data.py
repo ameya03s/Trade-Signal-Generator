@@ -1,7 +1,10 @@
+"""Dataset assembly utilities for multi-ticker historical data."""
+
 from data.data import get_data
 import pandas as pd
 
 def get_dataset():
+    """Concatenate several large-cap tickers into one DataFrame with `ticker` column."""
     aapl = get_data('AAPL', '2020-01-01', '2023-12-31')
     aapl['ticker'] = 'AAPL'
     meta = get_data('META', '2020-01-01', '2023-12-31')
